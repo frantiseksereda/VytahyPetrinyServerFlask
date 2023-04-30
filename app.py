@@ -78,13 +78,13 @@ def get_books():
     cur = conn.cursor()
     cur.execute('SELECT * FROM books;')
     books = cur.fetchall()
-    #schema = BookSchema ()
-    #books_to_return = schema.dump(books)
+    schema = BookSchema ()
+    books_to_return = schema.dump(books)
 
     # print(books)
     # print(books_to_return)
 
-    return jsonify(books)
+    return jsonify(books_to_return)
 
 
 @app.route("/add-book", methods=["POST"])
