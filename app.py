@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 import psycopg2
+import os
 
 from model.expense import Expense, ExpenseSchema
 from model.income import Income, IncomeSchema
@@ -10,11 +11,16 @@ app = Flask(__name__)
 
 
 def get_db_connection():
-    # change for production - as in model/init_db.py
-    conn = psycopg2.connect(host="ep-gentle-frost-066984.eu-central-1.aws.neon.tech",
-                            database="pokusy",
-                            user="frantisek.sereda",
-                            password="S0cEAxmKkd6N")
+    conn_str = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
+    conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.split(' ')}
+
+    conn = psycopg2.connect(
+        host=conn_str_params['host'],
+        database=conn_str_params['dbname'],
+        user=conn_str_params['user'],
+        password=conn_str_params['password']
+    )
+
     return conn
 
 
