@@ -1,10 +1,24 @@
 import datetime as dt
 
+from dataclasses import dataclass
 from marshmallow import Schema, fields
 from marshmallow import post_load
+from sqlalchemy import Column, String, Integer, Date
+from sqlalchemy.ext.declarative import declarative_base
 
+Base = declarative_base()
 
-class Book(object):
+@dataclass
+class Book(Base):
+    __tablename__ = 'books2'
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String)
+    author = Column(String)
+    pages_num = Column(Integer)
+    review = Column(String)
+    date_added = Column(Date)
+
     def __init__(self, title, author, pages_num, review):
         self.title = title
         self.author = author
@@ -12,8 +26,8 @@ class Book(object):
         self.review = review
         self.date_added = dt.datetime.now()
 
-    def __repr__(self):
-        return '<Book(name={self.title!r})>'.format(self=self)
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class BookSchema(Schema):
