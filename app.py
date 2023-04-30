@@ -10,6 +10,7 @@ app = Flask(__name__)
 
 
 def get_db_connection():
+    # change for produc
     conn = psycopg2.connect(host="ep-gentle-frost-066984.eu-central-1.aws.neon.tech",
                             database="pokusy",
                             user="frantisek.sereda",

@@ -1,11 +1,23 @@
 import os
 import psycopg2
 
+# local
+# conn = psycopg2.connect(
+#         host="ep-gentle-frost-066984.eu-central-1.aws.neon.tech",
+#         database="pokusy",
+#         user="frantisek.sereda",
+#         password="S0cEAxmKkd6N")
+
+# azure
+conn_str = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
+conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.split(' ')}
+
 conn = psycopg2.connect(
-        host="ep-gentle-frost-066984.eu-central-1.aws.neon.tech",
-        database="pokusy",
-        user="frantisek.sereda",
-        password="S0cEAxmKkd6N")
+    host=conn_str_params['host'],
+    database=conn_str_params['dbname'],
+    user=conn_str_params['user'],
+    password=conn_str_params['password']
+)
 
 # Open a cursor to perform database operations
 cur = conn.cursor()
