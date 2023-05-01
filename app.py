@@ -94,7 +94,7 @@ def get_balance():
 def get_books():
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute('SELECT * FROM books;')
+    cur.execute('SELECT * FROM books2;')
     books = cur.fetchall()
     schema = BookSchema(many=True)
     books_to_return = schema.dumps(books)
@@ -102,7 +102,7 @@ def get_books():
     print(books)
     print(books_to_return)
 
-    return jsonify(books_to_return)
+    return jsonify(books)
 
 @app.route("/books2")
 def get_books2():
